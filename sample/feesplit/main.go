@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/okex/exchain-go-sdk/utils"
-	"github.com/okex/exchain/libs/cosmos-sdk/types/query"
+	"github.com/okx/okbchain-go-sdk/utils"
+	"github.com/okx/okbchain/libs/cosmos-sdk/types/query"
 	"log"
 
-	gosdk "github.com/okex/exchain-go-sdk"
+	gosdk "github.com/okx/okbchain-go-sdk"
 )
 
 const (

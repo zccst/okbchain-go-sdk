@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/okex/exchain-go-sdk/module/governance/types"
-	"github.com/okex/exchain-go-sdk/utils"
+	"github.com/okx/okbchain-go-sdk/module/governance/types"
+	"github.com/okx/okbchain-go-sdk/utils"
 )
 
 func parseProposalFromFile(path string) (proposal types.ProposalJSON, err error) {

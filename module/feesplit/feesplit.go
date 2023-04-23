@@ -1,17 +1,17 @@
 package feesplit
 
 import (
-	gosdktypes "github.com/okex/exchain-go-sdk/types"
-	"github.com/okex/exchain/libs/cosmos-sdk/client/context"
-	"github.com/okex/exchain/libs/cosmos-sdk/codec"
-	"github.com/okex/exchain/x/feesplit/types"
+	gosdktypes "github.com/okx/okbchain-go-sdk/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/client/context"
+	"github.com/okx/okbchain/libs/cosmos-sdk/codec"
+	"github.com/okx/okbchain/x/feesplit/types"
 )
 
 const (
 	// Amino names
-	registerFeeSplitName = "okexchain/MsgRegisterFeeSplit"
-	updateFeeSplitName   = "okexchain/MsgUpdateFeeSplit"
-	cancelFeeSplitName   = "okexchain/MsgCancelFeeSplit"
+	registerFeeSplitName = "okbchain/MsgRegisterFeeSplit"
+	updateFeeSplitName   = "okbchain/MsgUpdateFeeSplit"
+	cancelFeeSplitName   = "okbchain/MsgCancelFeeSplit"
 )
 
 var (

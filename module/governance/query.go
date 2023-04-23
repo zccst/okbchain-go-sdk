@@ -3,20 +3,21 @@ package governance
 import (
 	"fmt"
 
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain-go-sdk/module/governance/types"
-	"github.com/okex/exchain-go-sdk/utils"
-	govutils "github.com/okex/exchain/x/gov/client/utils"
-	govtypes "github.com/okex/exchain/x/gov/types"
+	"github.com/okx/okbchain-go-sdk/module/governance/types"
+	"github.com/okx/okbchain-go-sdk/utils"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	govutils "github.com/okx/okbchain/x/gov/client/utils"
+	govtypes "github.com/okx/okbchain/x/gov/types"
 )
 
 // QueryProposals gets all proposals
 // Note:
+//
 //	optional:
 //		status option - DepositPeriod|VotingPeriod|Passed|Rejected. Defaults to all proposals by ""
 //		depositorAddrStr - filter by proposals deposited on by depositor. Defaults to all proposals by ""
 //		voterAddrStr - filter by proposals voted on by voted. Defaults to all proposals by ""
-// 		numLimit - limit to latest [number] proposals. Defaults to all proposals by 0
+//		numLimit - limit to latest [number] proposals. Defaults to all proposals by 0
 func (gc govClient) QueryProposals(depositorAddrStr, voterAddrStr, status string, numLimit uint64) (
 	proposals []types.Proposal, err error) {
 	var depositorAddr, voterAddr sdk.AccAddress

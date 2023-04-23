@@ -13,7 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	gosdk "github.com/okex/exchain-go-sdk"
+	gosdk "github.com/okx/okbchain-go-sdk"
 )
 
 const (

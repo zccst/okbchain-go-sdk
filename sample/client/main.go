@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	gosdk "github.com/okex/exchain-go-sdk"
-	"github.com/okex/exchain-go-sdk/utils"
+	gosdk "github.com/okx/okbchain-go-sdk"
+	"github.com/okx/okbchain-go-sdk/utils"
 )
 
 const (
