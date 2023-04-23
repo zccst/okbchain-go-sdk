@@ -10,8 +10,7 @@ import (
 )
 
 const (
-	// TODO: link to mainnet of ExChain later
-	rpcURL = "tcp://52.199.88.250:26657"
+	rpcURL = "tcp://127.0.0.1:26657"
 	// user's name
 	name = "alice"
 	// user's mnemonic
@@ -19,9 +18,8 @@ const (
 	// user's password
 	passWd = "12345678"
 	// target address
-	addr     = "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u"
-	baseCoin = "okt"
-
+	addr       = "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u"
+	baseCoin   = "okb"
 	privateKey = ""
 )
 
@@ -37,8 +35,8 @@ func main() {
 	//}
 
 	// WAY 2: alternative client config with the fees by auto gas calculation
-	config, err := gosdk.NewClientConfig(rpcURL, "exchain-64", gosdk.BroadcastBlock, "", 200000,
-		1.1, "0.000000001okt")
+	config, err := gosdk.NewClientConfig(rpcURL, "okbchain-67", gosdk.BroadcastBlock, "", 200000,
+		1.1, "0.000000001okb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,7 +58,7 @@ func main() {
 
 	seq := accInfo.GetSequence()
 	fmt.Println("=================================================RegisterFeeSplit========================================================")
-	registerResponse, err := cli.Feesplit().RegisterFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "register", "0x113a5369FAC959AFCeEB697981c39B5180813a7C", []uint64{75}, "")
+	registerResponse, err := cli.Feesplit().RegisterFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "register", "0x2594E83A94F89Ffb923773ddDfF723BbE017b80D", []uint64{8}, "")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -69,7 +67,7 @@ func main() {
 
 	fmt.Println("=================================================UpdateFeeSplit========================================================")
 	seq++
-	updateResponse, err := cli.Feesplit().UpdateFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "update", "0x113a5369FAC959AFCeEB697981c39B5180813a7C", withdrawAddress)
+	updateResponse, err := cli.Feesplit().UpdateFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "update", "0x2594E83A94F89Ffb923773ddDfF723BbE017b80D", withdrawAddress)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -89,7 +87,7 @@ func main() {
 	log.Println(queryFeesplits)
 
 	fmt.Println("=================================================QueryFeeSplit========================================================")
-	queryFeesplit, err := cli.Feesplit().QueryFeeSplit("0x113a5369FAC959AFCeEB697981c39B5180813a7C")
+	queryFeesplit, err := cli.Feesplit().QueryFeeSplit("0x2594E83A94F89Ffb923773ddDfF723BbE017b80D")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -128,7 +126,7 @@ func main() {
 
 	fmt.Println("=================================================CancelFeeSplit========================================================")
 	seq++
-	cancelResponse, err := cli.Feesplit().CancelFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "cancel", "0x113a5369FAC959AFCeEB697981c39B5180813a7C")
+	cancelResponse, err := cli.Feesplit().CancelFeeSplit(fromInfo, passWd, accInfo.GetAccountNumber(), seq, "cancel", "0x2594E83A94F89Ffb923773ddDfF723BbE017b80D")
 	if err != nil {
 		log.Fatal(err)
 	}

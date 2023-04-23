@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	host     string = "https://exchaintestrpc.okex.org"
+	host     string = "http://localhost:8545"
 	alice    string = "0xaD37A476c7D3b8F382C5DfC5E789e6540ea246bb"
 	bob      string = "0x0073F2E28ef8F117e53d858094086Defaf1837D5"
 	aliceKey string = "5a72d444804664c3cf38fffc6117e6142146ddac25abaa35b72eb86dfe6ae56c"
