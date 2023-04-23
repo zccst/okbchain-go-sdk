@@ -120,6 +120,29 @@ func (bc *baseClient) BuildAndBroadcast(fromName, passphrase, memo string, msgs 
 	return bc.Broadcast(bytes, bc.GetConfig().BroadcastMode)
 }
 
+func (bc *baseClient) BuildAndBroadcastWithNonce(fromName, passphrase, memo string, msgs []sdk.Msg, accNumber, seqNumber uint64) (resp sdk.TxResponse, err error) {
+	stdTx, err := bc.BuildStdTx(fromName, passphrase, memo, msgs, accNumber, seqNumber)
+	if err != nil {
+		return resp, fmt.Errorf("failed. build stdTx error: %s", err)
+	}
+
+	bytes, err := bc.cdc.MarshalBinaryLengthPrefixed(stdTx)
+	if err != nil {
+		return resp, fmt.Errorf("failed. encoded stdTx error: %s", err)
+	}
+
+	wrapedTx := &types.WrapCMTx{
+		Tx:    bytes,
+		Nonce: seqNumber,
+	}
+	txBytes, err := bc.cdc.MarshalJSON(wrapedTx)
+	if err != nil {
+		panic(fmt.Sprintln("MarshalJSON fail", err))
+	}
+
+	return bc.Broadcast(txBytes, bc.GetConfig().BroadcastMode)
+}
+
 // BuildAndSign builds std sign context and sign it
 func (bc *baseClient) BuildStdTx(fromName, passphrase, memo string, msgs []sdk.Msg, accNumber, seqNumber uint64) (
 	stdTx *authtypes.StdTx, err error) {

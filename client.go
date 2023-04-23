@@ -29,7 +29,7 @@ import (
 	"github.com/okx/okbchain/libs/cosmos-sdk/codec"
 )
 
-// Client - structure of the main client of ExChain GoSDK
+// Client - structure of the main client of OKBChain GoSDK
 type Client struct {
 	config  gosdktypes.ClientConfig
 	cdc     *codec.Codec

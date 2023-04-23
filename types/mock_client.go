@@ -123,6 +123,14 @@ func (m *MockBaseClient) BuildAndBroadcast(fromName, passphrase, memo string, ms
 	return ret0, ret1
 }
 
+func (m *MockBaseClient) BuildAndBroadcastWithNonce(fromName, passphrase, memo string, msgs []types.Msg, accNumber, seqNumber uint64) (types.TxResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BuildAndBroadcastWithNonce", fromName, passphrase, memo, msgs, accNumber, seqNumber)
+	ret0, _ := ret[0].(types.TxResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
 // BuildAndBroadcast indicates an expected call of BuildAndBroadcast.
 func (mr *MockBaseClientMockRecorder) BuildAndBroadcast(fromName, passphrase, memo, msgs, accNumber, seqNumber interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
