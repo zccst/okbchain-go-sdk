@@ -2,12 +2,12 @@ package wasm
 
 import (
 	"fmt"
-	"github.com/okex/exchain/libs/cosmos-sdk/crypto/keys"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain/libs/cosmos-sdk/types/errors"
-	"github.com/okex/exchain/x/wasm/ioutils"
-	"github.com/okex/exchain/x/wasm/types"
-	"io/ioutil"
+	"github.com/okx/okbchain/libs/cosmos-sdk/crypto/keys"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/types/errors"
+	"github.com/okx/okbchain/x/wasm/ioutils"
+	"github.com/okx/okbchain/x/wasm/types"
+	"os"
 )
 
 func (c wasmClient) StoreCode(fromInfo keys.Info, passWd string, accNum, seqNum uint64, memo string, wasmFilePath string, onlyAddr string, everybody, nobody bool) (*sdk.TxResponse, error) {
@@ -83,11 +83,6 @@ func (c wasmClient) MigrateContract(fromInfo keys.Info, passWd string, accNum, s
 }
 
 func (c wasmClient) UpdateContractAdmin(fromInfo keys.Info, passWd string, accNum, seqNum uint64, memo string, contractAddr string, adminAddr string) (*sdk.TxResponse, error) {
-	_, err := sdk.AccAddressFromBech32(contractAddr)
-	if err != nil {
-		return nil, err
-	}
-
 	msg := types.MsgUpdateAdmin{
 		Sender:   fromInfo.GetAddress().String(),
 		Contract: contractAddr,
@@ -107,11 +102,6 @@ func (c wasmClient) UpdateContractAdmin(fromInfo keys.Info, passWd string, accNu
 }
 
 func (c wasmClient) ClearContractAdmin(fromInfo keys.Info, passWd string, accNum, seqNum uint64, memo string, contractAddr string) (*sdk.TxResponse, error) {
-	_, err := sdk.AccAddressFromBech32(contractAddr)
-	if err != nil {
-		return nil, err
-	}
-
 	msg := types.MsgClearAdmin{
 		Sender:   fromInfo.GetAddress().String(),
 		Contract: contractAddr,
@@ -130,7 +120,7 @@ func (c wasmClient) ClearContractAdmin(fromInfo keys.Info, passWd string, accNum
 }
 
 func parseStoreCodeMsg(wasmFilePath string, sender sdk.AccAddress, onlyAddrStr string, everybody, nobody bool) (types.MsgStoreCode, error) {
-	wasm, err := ioutil.ReadFile(wasmFilePath)
+	wasm, err := os.ReadFile(wasmFilePath)
 	if err != nil {
 		return types.MsgStoreCode{}, err
 	}
@@ -214,11 +204,6 @@ func parseExecuteMsg(contractAddr string, execMsg string, sender sdk.AccAddress,
 }
 
 func parseMigrateContractMsg(codeID uint64, contractAddr string, sender sdk.AccAddress, migrateMsg string) (types.MsgMigrateContract, error) {
-	_, err := sdk.AccAddressFromBech32(contractAddr)
-	if err != nil {
-		return types.MsgMigrateContract{}, err
-	}
-
 	msg := types.MsgMigrateContract{
 		Sender:   sender.String(),
 		Contract: contractAddr,
