@@ -4,15 +4,16 @@ import (
 	"errors"
 	"strings"
 
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain-go-sdk/module/token/types"
-	tokentypes "github.com/okex/exchain/x/token/types"
+	"github.com/okx/okbchain-go-sdk/module/token/types"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	tokentypes "github.com/okx/okbchain/x/token/types"
 )
 
 // ParseTransfersStr parses the whole multi-send info string into TransferUnit
 // Example:
 // `addr1 1okt
-// 	addr2 2okt`
+//
+//	addr2 2okt`
 func ParseTransfersStr(str string) ([]types.TransferUnit, error) {
 	strs := strings.Split(strings.TrimSpace(str), "\n")
 	transLen := len(strs)

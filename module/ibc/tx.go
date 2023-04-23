@@ -2,25 +2,23 @@ package ibc
 
 import (
 	"fmt"
-	"github.com/okex/exchain-go-sdk/module/auth"
-	"github.com/okex/exchain/libs/cosmos-sdk/types/errors"
-	ibcmsg "github.com/okex/exchain/libs/cosmos-sdk/types/ibc-adapter"
-	cmwraptx "github.com/okex/exchain/libs/tendermint/types"
+	"github.com/okx/okbchain-go-sdk/module/auth"
+	ibcmsg "github.com/okx/okbchain/libs/cosmos-sdk/types/ibc-adapter"
 	"math/big"
 	"strings"
 
-	"github.com/okex/exchain-go-sdk/module"
-	gosdktypes "github.com/okex/exchain-go-sdk/types"
-	"github.com/okex/exchain/libs/cosmos-sdk/client"
-	"github.com/okex/exchain/libs/cosmos-sdk/codec"
-	codec_types "github.com/okex/exchain/libs/cosmos-sdk/codec/types"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	signing "github.com/okex/exchain/libs/cosmos-sdk/types/tx/signing"
-	ibc_tx "github.com/okex/exchain/libs/cosmos-sdk/x/auth/ibc-tx"
-	signing2 "github.com/okex/exchain/libs/cosmos-sdk/x/auth/ibcsigning"
-	ibc_type "github.com/okex/exchain/libs/ibc-go/modules/apps/transfer/types"
-	client_types "github.com/okex/exchain/libs/ibc-go/modules/core/02-client/types"
-	tmcrypto "github.com/okex/exchain/libs/tendermint/crypto"
+	"github.com/okx/okbchain-go-sdk/module"
+	gosdktypes "github.com/okx/okbchain-go-sdk/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/client"
+	"github.com/okx/okbchain/libs/cosmos-sdk/codec"
+	codec_types "github.com/okx/okbchain/libs/cosmos-sdk/codec/types"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	signing "github.com/okx/okbchain/libs/cosmos-sdk/types/tx/signing"
+	ibc_tx "github.com/okx/okbchain/libs/cosmos-sdk/x/auth/ibc-tx"
+	signing2 "github.com/okx/okbchain/libs/cosmos-sdk/x/auth/ibcsigning"
+	ibc_type "github.com/okx/okbchain/libs/ibc-go/modules/apps/transfer/types"
+	client_types "github.com/okx/okbchain/libs/ibc-go/modules/core/02-client/types"
+	tmcrypto "github.com/okx/okbchain/libs/tendermint/crypto"
 )
 
 const (
@@ -115,17 +113,7 @@ func (ibc ibcClient) Transfer(priKey tmcrypto.PrivKey, srcChannel string, receiv
 		return sdk.TxResponse{}, err
 	}
 
-	wrapedTx := &cmwraptx.WrapCMTx{
-		Tx:    txBytes,
-		Nonce: accountInfo.GetSequence(),
-	}
-
-	txBytes, err = ibc.GetCodec().MarshalJSON(wrapedTx)
-	if err != nil {
-		return sdk.TxResponse{}, errors.Wrap(err, "MarshalJSON fail")
-	}
-
-	return ibc.Broadcast(txBytes, ibc.GetConfig().BroadcastMode)
+	return ibc.Broadcast(txBytes, "sync")
 }
 
 // get Client Height from destination chain

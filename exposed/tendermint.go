@@ -1,9 +1,9 @@
 package exposed
 
 import (
-	"github.com/okex/exchain-go-sdk/module/tendermint/types"
-	gosdktypes "github.com/okex/exchain-go-sdk/types"
-	ctypes "github.com/okex/exchain/libs/tendermint/rpc/core/types"
+	"github.com/okx/okbchain-go-sdk/module/tendermint/types"
+	gosdktypes "github.com/okx/okbchain-go-sdk/types"
+	ctypes "github.com/okx/okbchain/libs/tendermint/rpc/core/types"
 )
 
 // Tendermint shows the expected behavior for inner tendermint client
