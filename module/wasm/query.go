@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain/libs/cosmos-sdk/types/query"
-	"github.com/okex/exchain/x/wasm/types"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/types/query"
+	"github.com/okx/okbchain/x/wasm/types"
 )
 
 func (c wasmClient) QueryListCode(pageReq *query.PageRequest) (*types.QueryCodesResponse, error) {

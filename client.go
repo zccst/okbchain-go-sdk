@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/okx/okbchain-go-sdk/module/feesplit"
 	"github.com/okx/okbchain-go-sdk/module/ibc"
+	"github.com/okx/okbchain-go-sdk/module/wasm"
 	ibcTypes "github.com/okx/okbchain/libs/ibc-go/modules/apps/transfer/types"
 	feesplitTypes "github.com/okx/okbchain/x/feesplit/types"
 
@@ -27,6 +28,7 @@ import (
 	tokentypes "github.com/okx/okbchain-go-sdk/module/token/types"
 	gosdktypes "github.com/okx/okbchain-go-sdk/types"
 	"github.com/okx/okbchain/libs/cosmos-sdk/codec"
+	wasmTypes "github.com/okx/okbchain/x/wasm/types"
 )
 
 // Client - structure of the main client of OKBChain GoSDK
@@ -57,6 +59,7 @@ func NewClient(config gosdktypes.ClientConfig) Client {
 		tendermint.NewTendermintClient(pBaseClient),
 		ibc.NewIbcClient(pBaseClient),
 		feesplit.NewfeesplitClient(pBaseClient),
+		wasm.NewWasmClient(pBaseClient),
 	)
 
 	return *pClient
@@ -115,4 +118,8 @@ func (cli *Client) Ibc() exposed.Ibc {
 
 func (cli *Client) Feesplit() exposed.Feesplit {
 	return cli.modules[feesplitTypes.ModuleName].(exposed.Feesplit)
+}
+
+func (cli *Client) Wasm() exposed.Wasm {
+	return cli.modules[wasmTypes.ModuleName].(exposed.Wasm)
 }

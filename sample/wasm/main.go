@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	gosdk "github.com/okex/exchain-go-sdk"
-	"github.com/okex/exchain-go-sdk/utils"
-	"github.com/okex/exchain/libs/cosmos-sdk/types/query"
+	gosdk "github.com/okx/okbchain-go-sdk"
+	"github.com/okx/okbchain-go-sdk/utils"
+	"github.com/okx/okbchain/libs/cosmos-sdk/types/query"
 	"log"
 	"strconv"
 	"strings"
