@@ -3,16 +3,15 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
+	"github.com/ethereum/go-ethereum/common"
 	gosdk "github.com/okx/okbchain-go-sdk"
 	"github.com/okx/okbchain-go-sdk/utils"
 	"github.com/okx/okbchain/libs/cosmos-sdk/types/query"
 	"log"
-	"strconv"
-	"strings"
 )
 
 const (
-	rpcURL = "tcp://52.199.88.250:26657"
+	rpcURL = "tcp://127.0.0.1:26657"
 	// user's name
 	name = "alice"
 	// user's mnemonic
@@ -24,7 +23,8 @@ const (
 	addr     = "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u"
 	baseCoin = "okt"
 
-	addr2 = "ex1fsfwwvl93qv6r56jpu084hxxzn9zphnyxhske5"
+	addr2   = "ex1fsfwwvl93qv6r56jpu084hxxzn9zphnyxhske5"
+	chainId = "okbchain-67"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	// NOTE: either of the both ways below to pay fees is available
 
 	// WAY 1: create a client config with fixed fees
-	config, err := gosdk.NewClientConfig(rpcURL, "exchain-64", gosdk.BroadcastBlock, "0.01okt", 100000000,
+	config, err := gosdk.NewClientConfig(rpcURL, "okbchain-67", gosdk.BroadcastBlock, "0.01okb", 100000000,
 		0, "")
 	if err != nil {
 		log.Fatal(err)
@@ -73,34 +73,30 @@ func main() {
 	accountNum, sequenceNum := accInfo.GetAccountNumber(), accInfo.GetSequence()
 
 	wasmFile := "sample/wasm/hackatom.wasm"
-	res, err := cli.Wasm().StoreCode(fromInfo, passWd, accountNum, sequenceNum, "memo", wasmFile, "", false, false)
+	codeId, err := cli.Wasm().StoreCode(fromInfo, passWd, accountNum, sequenceNum, "memo", wasmFile, "", false, false)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	codeID := GetCodeID(res.RawLog)
 
 	log.Println("=============================================================StoreCode1===============================================================")
-	log.Println(codeID)
-	log.Println(res)
+	log.Println(codeId)
 
 	// instantiate a wasm contract
+	log.Println("=========================================================InstantiateContract==========================================================")
 	sequenceNum++
-	initMsg := `{"verifier": "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u", "beneficiary": "ex1fsfwwvl93qv6r56jpu084hxxzn9zphnyxhske5"}`
-	instantiateRes, err := cli.Wasm().InstantiateContract(fromInfo, passWd, accountNum, sequenceNum, "memo", uint64(codeID), initMsg, "1okt", "local0.1.0", "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u", false)
+	address := common.Address{}
+	address.SetBytes(fromInfo.GetAddress().Bytes())
+	initMsg := fmt.Sprintf(`{"verifier": "%s", "beneficiary": "%s"}`, address.String(), address.String())
+	contractAddr, err := cli.Wasm().InstantiateContract(fromInfo, passWd, accountNum, sequenceNum, "memo", uint64(codeId), initMsg, "1okb", "local0.1.0", "ex1qj5c07sm6jetjz8f509qtrxgh4psxkv3ddyq7u", false)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("=========================================================InstantiateContract==========================================================")
-	log.Println(instantiateRes)
-	index := strings.Index(instantiateRes.RawLog, "address")
-	contractAddr := instantiateRes.RawLog[index+18 : index+18+61]
 	log.Println("contract address: ", contractAddr)
 
 	// execute a wasm contract
 	sequenceNum++
 	execMsg := `{"release":{}}`
-	executeRes, err := cli.Wasm().ExecuteContract(fromInfo, passWd, accountNum, sequenceNum, "memo", contractAddr, execMsg, "2okt")
+	executeRes, err := cli.Wasm().ExecuteContract(fromInfo, passWd, accountNum, sequenceNum, "memo", contractAddr, execMsg, "2okb")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -162,17 +158,16 @@ func main() {
 	// store new code
 	sequenceNum++
 	migrateWasmFile := "sample/wasm/burner.wasm"
-	storeCodeRes, err := cli.Wasm().StoreCode(fromInfo, passWd, accountNum, sequenceNum, "memo", migrateWasmFile, "", false, false)
+	codeId, err = cli.Wasm().StoreCode(fromInfo, passWd, accountNum, sequenceNum, "memo", migrateWasmFile, "", false, false)
 	if err != nil {
 		log.Fatal(err)
 	}
-	codeID = GetCodeID(storeCodeRes.RawLog)
+
 	log.Println("=============================================================StoreCode2===============================================================")
-	log.Println(codeID)
-	log.Println(res)
+	log.Println(codeId)
 
 	migrateMsg := `{"payout": "ex1fsfwwvl93qv6r56jpu084hxxzn9zphnyxhske5"}`
-	migrateRes, err := cli.Wasm().MigrateContract(fromInfo2, passWd, accInfo2.GetAccountNumber(), accInfo2.GetSequence(), "memo", codeID, contractAddr, migrateMsg)
+	migrateRes, err := cli.Wasm().MigrateContract(fromInfo2, passWd, accInfo2.GetAccountNumber(), accInfo2.GetSequence(), "memo", uint64(codeId), contractAddr, migrateMsg)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -188,7 +183,7 @@ func main() {
 	log.Println(clearAdminRes)
 
 	// query code
-	queryCodeRes, err := cli.Wasm().QueryCode(uint64(codeID))
+	queryCodeRes, err := cli.Wasm().QueryCode(uint64(codeId))
 	log.Println("=========================================================QueryCode==========================================================")
 	if err != nil {
 		log.Println(err)
@@ -212,7 +207,7 @@ func main() {
 	}
 
 	// query ListContractByCode
-	listContract, err := cli.Wasm().QueryListContract(uint64(codeID), &query.PageRequest{
+	listContract, err := cli.Wasm().QueryListContract(uint64(codeId), &query.PageRequest{
 		Key:        nil,
 		Offset:     0,
 		Limit:      50,
@@ -227,7 +222,7 @@ func main() {
 	}
 
 	// query code info
-	codeInfo, err := cli.Wasm().QueryCodeInfo(uint64(codeID))
+	codeInfo, err := cli.Wasm().QueryCodeInfo(uint64(codeId))
 	log.Println("=========================================================QueryCodeInfo==========================================================")
 	if err != nil {
 		log.Println(err)
@@ -271,13 +266,4 @@ func main() {
 	} else {
 		log.Println(pinnedCode)
 	}
-}
-
-func GetCodeID(str string) uint64 {
-	index := strings.LastIndex(str, ":")
-	codeIDStr := str[index:]
-	codeIDStr = codeIDStr[2 : strings.Index(codeIDStr, "}")-1]
-	codeID, _ := strconv.Atoi(codeIDStr)
-
-	return uint64(codeID)
 }
