@@ -5,21 +5,26 @@
 package types
 
 import (
-	tmtypes "github.com/okex/exchain/libs/tendermint/types"
+	tmtypes "github.com/okx/okbchain/libs/tendermint/types"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	codec "github.com/okex/exchain/libs/cosmos-sdk/codec"
-	types "github.com/okex/exchain/libs/cosmos-sdk/types"
-	types0 "github.com/okex/exchain/libs/cosmos-sdk/x/auth/types"
-	bytes "github.com/okex/exchain/libs/tendermint/libs/bytes"
-	types1 "github.com/okex/exchain/libs/tendermint/rpc/core/types"
+	codec "github.com/okx/okbchain/libs/cosmos-sdk/codec"
+	types "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	types0 "github.com/okx/okbchain/libs/cosmos-sdk/x/auth/types"
+	bytes "github.com/okx/okbchain/libs/tendermint/libs/bytes"
+	types1 "github.com/okx/okbchain/libs/tendermint/rpc/core/types"
 )
 
 // MockBaseClient is a mock of BaseClient interface.
 type MockBaseClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockBaseClientMockRecorder
+}
+
+func (m *MockBaseClient) BlockByHash(hash []byte) (*types1.ResultBlock, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (m *MockBaseClient) BlockInfo(height *int64) (*tmtypes.BlockMeta, error) {
@@ -113,6 +118,14 @@ func (mr *MockBaseClientMockRecorder) Broadcast(txBytes, broadcastMode interface
 func (m *MockBaseClient) BuildAndBroadcast(fromName, passphrase, memo string, msgs []types.Msg, accNumber, seqNumber uint64) (types.TxResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BuildAndBroadcast", fromName, passphrase, memo, msgs, accNumber, seqNumber)
+	ret0, _ := ret[0].(types.TxResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (m *MockBaseClient) BuildAndBroadcastWithNonce(fromName, passphrase, memo string, msgs []types.Msg, accNumber, seqNumber uint64) (types.TxResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BuildAndBroadcastWithNonce", fromName, passphrase, memo, msgs, accNumber, seqNumber)
 	ret0, _ := ret[0].(types.TxResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1

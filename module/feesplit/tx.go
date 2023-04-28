@@ -2,9 +2,9 @@ package feesplit
 
 import (
 	"fmt"
-	"github.com/okex/exchain/libs/cosmos-sdk/crypto/keys"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain/x/feesplit/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/crypto/keys"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	"github.com/okx/okbchain/x/feesplit/types"
 )
 
 func (c feesplitClient) RegisterFeeSplit(fromInfo keys.Info, passWd string, accNum, seqNum uint64, memo string, contractAddress string, nonces []uint64, withdrawAddress string) (*sdk.TxResponse, error) {
@@ -35,7 +35,7 @@ func (c feesplitClient) RegisterFeeSplit(fromInfo keys.Info, passWd string, accN
 		return nil, err
 	}
 
-	res, err := c.BuildAndBroadcast(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
+	res, err := c.BuildAndBroadcastWithNonce(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (c feesplitClient) CancelFeeSplit(fromInfo keys.Info, passWd string, accNum
 		return nil, err
 	}
 
-	res, err := c.BuildAndBroadcast(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
+	res, err := c.BuildAndBroadcastWithNonce(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c feesplitClient) UpdateFeeSplit(fromInfo keys.Info, passWd string, accNum
 		return nil, err
 	}
 
-	res, err := c.BuildAndBroadcast(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
+	res, err := c.BuildAndBroadcastWithNonce(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
 	if err != nil {
 		return nil, err
 	}

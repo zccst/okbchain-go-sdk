@@ -7,10 +7,10 @@ import (
 	ethcmn "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethcore "github.com/ethereum/go-ethereum/core/types"
-	"github.com/okex/exchain-go-sdk/module/evm/types"
-	gosdktypes "github.com/okex/exchain-go-sdk/types"
-	rpctypes "github.com/okex/exchain/app/rpc/types"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
+	"github.com/okx/okbchain-go-sdk/module/evm/types"
+	gosdktypes "github.com/okx/okbchain-go-sdk/types"
+	rpctypes "github.com/okx/okbchain/app/rpc/types"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
 )
 
 // Evm shows the expected behavior for inner farm client

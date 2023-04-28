@@ -4,12 +4,12 @@ import (
 	"errors"
 	"math/big"
 
-	apptypes "github.com/okex/exchain/app/types"
-	"github.com/okex/exchain/libs/cosmos-sdk/codec"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	authtypes "github.com/okex/exchain/libs/cosmos-sdk/x/auth/types"
-	tmbytes "github.com/okex/exchain/libs/tendermint/libs/bytes"
-	rpcclient "github.com/okex/exchain/libs/tendermint/rpc/client"
+	apptypes "github.com/okx/okbchain/app/types"
+	"github.com/okx/okbchain/libs/cosmos-sdk/codec"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	authtypes "github.com/okx/okbchain/libs/cosmos-sdk/x/auth/types"
+	tmbytes "github.com/okx/okbchain/libs/tendermint/libs/bytes"
+	rpcclient "github.com/okx/okbchain/libs/tendermint/rpc/client"
 )
 
 // BaseClient shows the expected behavior for a base client
@@ -24,6 +24,7 @@ type BaseClient interface {
 
 // TxHandler shows the expected behavior to handle tx
 type TxHandler interface {
+	BuildAndBroadcastWithNonce(fromName, passphrase, memo string, msgs []sdk.Msg, accNumber, seqNumber uint64) (sdk.TxResponse, error)
 	BuildAndBroadcast(fromName, passphrase, memo string, msgs []sdk.Msg, accNumber, seqNumber uint64) (sdk.TxResponse, error)
 	BuildStdTx(fromName, passphrase, memo string, msgs []sdk.Msg, accNumber, seqNumber uint64) (*authtypes.StdTx, error)
 	BuildUnsignedStdTxOffline(msgs []sdk.Msg, memo string) *authtypes.StdTx

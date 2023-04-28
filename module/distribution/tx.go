@@ -3,10 +3,10 @@ package distribution
 import (
 	"fmt"
 
-	"github.com/okex/exchain/libs/cosmos-sdk/crypto/keys"
-	sdk "github.com/okex/exchain/libs/cosmos-sdk/types"
-	"github.com/okex/exchain-go-sdk/types/params"
-	distrtypes "github.com/okex/exchain/x/distribution/types"
+	"github.com/okx/okbchain-go-sdk/types/params"
+	"github.com/okx/okbchain/libs/cosmos-sdk/crypto/keys"
+	sdk "github.com/okx/okbchain/libs/cosmos-sdk/types"
+	distrtypes "github.com/okx/okbchain/x/distribution/types"
 )
 
 // SetWithdrawAddr changes the withdraw address of validator to receive rewards
@@ -22,7 +22,7 @@ func (dc distrClient) SetWithdrawAddr(fromInfo keys.Info, passWd, withdrawAddrSt
 	}
 
 	msg := distrtypes.NewMsgSetWithdrawAddress(fromInfo.GetAddress(), withdrawAddr)
-	return dc.BuildAndBroadcast(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
+	return dc.BuildAndBroadcastWithNonce(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
 }
 
 // WithdrawRewards withdraws the rewards of validator by himself
@@ -38,5 +38,5 @@ func (dc distrClient) WithdrawRewards(fromInfo keys.Info, passWd, valAddrStr, me
 	}
 
 	msg := distrtypes.NewMsgWithdrawValidatorCommission(valAddr)
-	return dc.BuildAndBroadcast(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
+	return dc.BuildAndBroadcastWithNonce(fromInfo.GetName(), passWd, memo, []sdk.Msg{msg}, accNum, seqNum)
 }
