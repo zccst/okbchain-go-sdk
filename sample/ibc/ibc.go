@@ -20,7 +20,7 @@ const (
 	// user's name
 	name = "admin17"
 	// user's mnemonic
-	mnemonic = "antique onion adult slot sad dizzy sure among cement demise submit scare"
+	mnemonic = ""
 	// user's password
 	passWd = "12345678"
 	// target address
